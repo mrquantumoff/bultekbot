@@ -1,4 +1,3 @@
-from http.client import FORBIDDEN
 from sys import prefix
 import discord
 from discord.ext import commands
