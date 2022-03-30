@@ -28,7 +28,7 @@ class DiscordClient(discord.Client):
             await message.reply("no.")
         elif  "ban me" in message.content.lower():
             await message.reply("Don't care + didn't ask + L + Ratio + beta + cringe + cope + seethe + ok boomer + incel + virgin + Karen + 🤡🤡🤡 + you are not just a clown, you are the entire circus + 💅💅💅 + nah this ain't it + do better + check your privilege + 🤢🤢🤮🤮 + the cognitive dissonance is real with this one + 😂😂🤣🤣 + lol copium + 🚩🚩🚩 + those tears taste delicious + Lisa Simpson meme template saying that your opinion is wrong + 😒🙄🧐🤨 + wojak meme in which I'm the chad + average your opinion fan vs average my opinion enjoyer + random k-pop fancam + cry more + how's your wife's boyfriend doing + Cheetos breath + Intelligence 0 + r/whooooosh + r/downvotedtooblivion + blocked and reported + yo Momma so fat + I fucked your mom last night + what zero pussy does to a mf + Jesse what the fuck are you talking about + holy shit go touch some grass + cry about it + get triggered")
-            await message.author.send("suck my big dick and you're banned so dont bother trying to ban me again and ur momma gay so I fuckeed her yeeeeeeeesterday")
+            await message.author.send("suck my big dick and you're kicked so dont bother trying to ban me again and ur momma gay so I fuckeed her yeeeeeeeesterday")
             await time.sleep(2)
             try:
                 await message.author.kick()
