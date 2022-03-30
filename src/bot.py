@@ -1,13 +1,12 @@
 from sys import prefix
-import discord
-from discord.ext import commands
+import nextcord
 import time
 import config
 import random
 # Base config
 prefix = config.prefix
 token = config.token
-class DiscordClient(discord.Client):
+class DiscordClient(nextcord.Client):
     async def on_ready(self):
         print('Logged on as', self.user)
         
@@ -95,6 +94,17 @@ class DiscordClient(discord.Client):
                             await message.delete()
                         except:
                             print("Couldn't kick "+member.name)
+                else:
+                    await message.reply("LMAO, his dick is bigger than yours")
+            if command.startswith("mute"):
+                if message.author.guild_permissions.manage_roles and self not in message.mentions:
+                    print("trying to mute")
+                    for member in message.mentions:
+                        try:
+                            if true:
+                                print("Muted "+member.name)
+                        except:
+                            print("Couldn't mute "+member.name)
                 else:
                     await message.reply("LMAO, his dick is bigger than yours")
 
