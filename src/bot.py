@@ -1,20 +1,32 @@
+from socket import timeout
 from sys import prefix
-import nextcord
-import time
-import config
-import random
+import nextcord, datetime, pprint, time, config, random, requests
 # Base config
 prefix = config.prefix
 token = config.token
+
+BASE = "https://discord.com/api/v9/"
+
 class DiscordClient(nextcord.Client):
     async def on_ready(self):
-        print('Logged on as', self.user)
-        
+        print('Logged in as', self.user)
+    async def timeout_user(*, user_id: int, guild_id: int, until: int):
+        endpoint = f'guilds/{guild_id}/members/{user_id}'
+        headers = {"Authorization": f"Bot {token}"}
+        url = BASE + endpoint
+        timeout = (datetime.datetime.utcnow() + datetime.timedelta(minutes=random.randint(1,3600))).isoformat()
+        json = {'communication_disabled_until': timeout}
+        session = requests.patch(url, json=json, headers=headers)
+        if session.status_code in range(200, 299):
+            return session.json()
+        else: 
+            return print("Did not find any\n", session.status_code)
 
     async def on_message(self, message):
         # don't respond to ourselves
         if message.author == self.user:
             return
+        
         # Respond on idc or i dont care messages with a rickroll
         if "idc" in message.content.lower() or 'i don\'t care' in message.content.lower() or "i dont care" in message.content.lower():
             await message.channel.send('https://www.youtube.com/watch?v=dQw4w9WgXcQ')
@@ -101,8 +113,7 @@ class DiscordClient(nextcord.Client):
                     print("trying to mute")
                     for member in message.mentions:
                         try:
-                            if true:
-                                print("Muted "+member.name)
+                            await timeout_user(user_id=member.id)
                         except:
                             print("Couldn't mute "+member.name)
                 else:
