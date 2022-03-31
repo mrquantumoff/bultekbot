@@ -56,7 +56,7 @@ class DiscordClient(nextcord.Client):
             command = message.content[len(prefix):]
             print(command)
             if command == "help":
-                await message.reply("Hi, I am discord shit messaging bot, inspired by r/shitposting's automoderator.\nWhat triggers me is a secret\nPrefix: "+prefix+"\nTimeout in minutes: "+str(timeout)+"\nCommands: *"+prefix+"mute <@user>, "+prefix+"kick <@user>, "+prefix+"(un)ban @<user> and "+prefix+"help*\n**This bot is licensed under the 2-Clause BSD License.\nCopyright ©️, 2022 Demir Yerli**")
+                await message.reply("Hi, I am discord shit messaging bot, inspired by r/shitposting's automoderator.\nWhat triggers me is a secret\nPrefix: "+prefix+"\nTimeout in minutes: "+str(timeout)+"\nCommands: *"+prefix+"mute <@user>, "+prefix+"kick <@user>, "+prefix+"(un)ban @<user>,"+prefix+"wipechat"+prefix+"spam <word> and "+prefix+"help*\n**This bot is licensed under the 2-Clause BSD License.\nCopyright ©️, 2022 Demir Yerli**")
             if command.startswith("ban"):
                 if message.author.guild_permissions.ban_members and self not in message.mentions:
                     print("trying to ban")
@@ -105,3 +105,18 @@ class DiscordClient(nextcord.Client):
                             print("Couldn't mute "+member.name)
                 else:
                     await message.reply("LMAO, his dick is bigger than yours")
+            if command.startswith("wipechat"):
+                if message.author.guild_permissions.manage_messages:
+                    print("trying to wipe chat")
+                    await message.channel.purge(limit=15000)
+                    await message.author.send("Wiped chat")
+                else:
+                    await message.reply("sorry "+message.author.name+" senpai I can't do that(((")
+            if command.startswith("spam"):
+                word = command.replace("spam ", "")
+                if word=="" or word==" ":
+                    await message.reply("you need to specify a word")
+                else:
+                    for i in range (0, random.randint(20, 70)):
+                        await message.channel.send(word)
+                
