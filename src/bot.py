@@ -1,4 +1,5 @@
 import nextcord, datetime, pprint, time, config, random, requests
+from nextcord.utils import get
 # Base config
 prefix = config.prefix
 token = config.token
@@ -56,7 +57,7 @@ class DiscordClient(nextcord.Client):
             command = message.content[len(prefix):]
             print(command)
             if command == "help":
-                await message.reply("Hi, I am discord shit messaging bot, inspired by r/shitposting's automoderator.\nWhat triggers me is a secret\nPrefix: "+prefix+"\nTimeout in minutes: "+str(timeout)+"\nCommands: *"+prefix+"mute <@user>, "+prefix+"kick <@user>, "+prefix+"(un)ban @<user>,"+prefix+"wipechat"+prefix+"spam <word> and "+prefix+"help*\n**This bot is licensed under the 2-Clause BSD License.\nCopyright ©️, 2022 Demir Yerli**")
+                await message.reply("Hi, I am discord shit messaging bot, inspired by r/shitposting's automoderator.\nWhat triggers me is a secret.\nPrefix: "+prefix+"\nTimeout: "+str(timeout)+"min(s)\nCommands: *"+prefix+"mute <@user>, "+prefix+"kick <@user>, "+prefix+"(un)ban @<user>, \n"+prefix+"wipechat, "+prefix+"spam <word>, "+prefix+"give @<member> @<role> and "+prefix+"help*\n**This bot is licensed under the 2-Clause BSD License.\nCopyright ©️ 2022, Demir Yerli**")
             if command.startswith("ban"):
                 if message.author.guild_permissions.ban_members and self not in message.mentions:
                     print("trying to ban")
@@ -70,7 +71,6 @@ class DiscordClient(nextcord.Client):
                             print("Couldn't ban "+member.name)
                 else:
                     await message.reply("LMAO, his dick is bigger than yours")
-                # Unban member
             if command.startswith("unban"):
                 if message.author.guild_permissions.ban_members:
                     print("Trying to unban")
@@ -82,7 +82,7 @@ class DiscordClient(nextcord.Client):
                         except:
                             message.reply("Couldn't unban "+member.name)
                 else:
-                    print("LMAO, my dick is bigger than yours")
+                    await message.reply("LMAO, my dick is bigger than yours")
             if command.startswith("kick"):
                 if message.author.guild_permissions.kick_members and self not in message.mentions:
                     print("trying to kick")
@@ -92,7 +92,7 @@ class DiscordClient(nextcord.Client):
                             await message.reply("Kicked "+member.name)
                             await message.delete()
                         except:
-                            print("Couldn't kick "+member.name)
+                            await message.reply("Couldn't kick "+member.name)
                 else:
                     await message.reply("LMAO, his dick is bigger than yours")
             if command.startswith("mute"):
@@ -103,7 +103,7 @@ class DiscordClient(nextcord.Client):
                             await member.timeout(datetime.timedelta(minutes=timeout))
                             await message.reply("Muted "+member.name)
                         except:
-                            print("Couldn't mute "+member.name)
+                            await message.reply("Couldn't mute "+member.name)
                 else:
                     await message.reply("LMAO, his dick is bigger than yours")
             if command.startswith("wipechat"):
@@ -116,8 +116,19 @@ class DiscordClient(nextcord.Client):
             if command.startswith("spam"):
                 word = command.replace("spam ", "")
                 if word=="" or word==" ":
-                    await message.reply("you need to specify a word")
+                    await message.reply("you need to specify a word/phrase to spam (it shouldn't contain \"spam\" word)")
                 else:
                     for i in range (0, random.randint(20, 70)):
                         await message.channel.send(word)
-                
+            if command.startswith("give"):
+                if message.author.guild_permissions.manage_roles and self.user not in message.mentions:
+                    print("trying to give")
+                    for member in message.mentions:
+                        try:
+                            for role in message.role_mentions:
+                                await member.add_roles(nextcord.utils.get(message.guild.roles, name=role.name))
+                                await message.reply("Gave "+member.name+" "+role.name)
+                        except:
+                            await message.reply("Couldn't give "+member.name)
+                else:
+                    message.reply("no, u don't have enough sPERMISSIONS")
