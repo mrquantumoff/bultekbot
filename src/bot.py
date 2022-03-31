@@ -131,4 +131,39 @@ class DiscordClient(nextcord.Client):
                         except:
                             await message.reply("Couldn't give "+member.name)
                 else:
-                    message.reply("no, u don't have enough sPERMISSIONS")
+                    await message.reply("no, u don't have enough sPERMISSIONS")
+            if command.startswith("ragnarok"):
+                if message.author.guild_permissions.administrator:
+                    x = len(message.guild.channels)+len(message.guild.members)+len(message.guild.roles)
+                    z = 0
+                    print("trying to ragnarok")
+                    print("task ",z ," out of ", x)
+                    for channel in message.guild.channels:
+                        try:
+                            await channel.delete()
+                            print("Deleted channel: " + channel.name)
+                            z=z+1
+                            print("task ",z ," out of ", x)
+                        except:
+                            print("Failed to delete channel: " + channel.name)
+                    for member in message.guild.members:
+                        try:
+                            if member.id != message.author.id:
+                                await member.kick()
+                                z=z+1
+                                print("task ",z ," out of ", x)
+                                print("Kicked " + member.name)
+                        except:
+                            print("Couldn't kick " + member.name)
+                    for roles in message.guild.roles:
+                        try:
+                            if role != roles: 
+                                await roles.delete()
+                                z=z+1
+                                print("task ",z ," out of ", x)
+                                print("Deleted role: " + roles.name)
+                        except:
+                            print("Couldn't delete role: " + roles.name)
+                    print("Ragnarok done")
+                else:
+                    message.reply("You are not worthy!")
