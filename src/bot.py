@@ -6,13 +6,14 @@ prefix = config.prefix
 token = config.token
 class BultekBotData():
     Version.major = 1
-    Version.minor = 0
+    Version.minor = 1
     Version.patch = 0
     strver = str(Version.major)+'.'+str(Version.minor)+'.'+str(Version.patch)
 class DiscordClient(nextcord.Client):
     async def on_ready(self):
         print('Logged in as', self.user)
         print("BultekBot v"+BultekBotData.strver)
+        botname = self.user
 
     async def on_message(self, message):
         # don't respond to ourselves
@@ -79,8 +80,12 @@ class DiscordClient(nextcord.Client):
                 ah.add_field(name="Info", value="I am discord shit messaging bot, inspired by r/shitposting's automoderator.")
                 ah.add_field(name="Support", value="If you have any questions or concerns, please contact <@589726087769227264>")
                 ah.add_field(name="Copyright", value="**Copyright © 2022, Demir Yerli**")
+                ah.add_field(name="Version", value="**v"+BultekBotData.strver+"**")
+                
+                
+                
                 eh.set_author(name="BultekBot", url="https://github.com/mrquantumoff/bultekbot")
-                ah.set_author(name="Demir Yerli", url="https://qnt.fanlink.to/socials")
+                ah.set_author(name="About", url="https://github.com/mrquantumoff/bultekbot")
                 await message.reply(embed=eh)
                 await message.reply(embed=ah)
             if command.startswith("ban"):
@@ -171,7 +176,7 @@ class DiscordClient(nextcord.Client):
                     await message.reply("no, u don't have enough sPERMISSIONS")
             if command.startswith("ragnarok"):
                 if message.author.guild_permissions.administrator:
-                    x = len(message.guild.channels)+len(message.guild.members)+len(message.guild.roles)
+                    x = len(message.guild.channels)+len(message.guild.members)+len(message.guild.roles) -2
                     z = 0
                     print("trying to ragnarok")
                     print("task ",z ," out of ", x)
@@ -184,14 +189,14 @@ class DiscordClient(nextcord.Client):
                         except:
                             print("Failed to delete channel: " + channel.name)
                     for member in message.guild.members:
-                        try:
-                            if member.id != message.author.id:
+                        if member.name != self.user or member.name != message.author.name:
+                            try:
                                 await member.kick()
                                 z=z+1
                                 print("task ",z ," out of ", x)
                                 print("Kicked " + member.name)
-                        except:
-                            print("Couldn't kick " + member.name)
+                            except:
+                                pass
                     for roles in message.guild.roles:
                         try:
                             if role != roles: 
@@ -202,5 +207,14 @@ class DiscordClient(nextcord.Client):
                         except:
                             print("Couldn't delete role: " + roles.name)
                     print("Ragnarok done")
+                    if z == x:
+                        color = discord.Color(value=0x00ff00)
+                    else: color = 0xF9FF9A #Yellow color
+                    results = nextcord.Embed(title="Ragnarok", description="Ragnarok done", color=color)
+                    results.add_field(name="Tasks done", value=z)
+                    results.add_field(name="Tasks failed", value=x-z)
+                    results.add_field(name="Tasks total", value=x)
+                    await message.author.send(embed=results)
                 else:
-                    message.reply("You are not worthy!")
+                    await message.reply("You are not worthy!")
+                    
