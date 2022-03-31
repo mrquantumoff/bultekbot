@@ -57,7 +57,28 @@ class DiscordClient(nextcord.Client):
             command = message.content[len(prefix):]
             print(command)
             if command == "help":
-                await message.reply("Hi, I am discord shit messaging bot, inspired by r/shitposting's automoderator.\nWhat triggers me is a secret.\nPrefix: "+prefix+"\nTimeout: "+str(timeout)+"min(s)\nCommands: *"+prefix+"mute <@user>, "+prefix+"kick <@user>, "+prefix+"(un)ban @<user>, \n"+prefix+"wipechat, "+prefix+"spam <word>, "+prefix+"give @<member> @<role> and "+prefix+"help*\n**This bot is licensed under the 2-Clause BSD License.\nCopyright ©️ 2022, Demir Yerli**")
+                eh = nextcord.Embed(title="Help", description="This is a list of commands you can use", color=0x00ff00)
+                eh.add_field(name=prefix+"help", value="Shows this message")
+                eh.add_field(name=prefix+"ban <@user>", value="Bans a user")
+                eh.add_field(name=prefix+"kick <@user>", value="Kicks a user")
+                eh.add_field(name=prefix+"unban", value="Unbans a user")
+                eh.add_field(name=prefix+"mute <@user>", value="Mutes(timeouts) a user")
+                eh.add_field(name=prefix+"give <@role> <@user>", value="Gives a role to a user")
+                eh.add_field(name=prefix+"take <@role> <@user>", value="Takes a role from a user")
+                eh.add_field(name=prefix+"spam <word/phrase>", value="Spams a word/phrase")
+                eh.add_field(name=prefix+"wipechat", value="Wipes the chat")
+                eh.add_field(name=prefix+"ragnarok", value="Nukes the server☢️")
+                ah = nextcord.Embed(title="About", description="About the bot", color=0x00FFC7)
+                ah.add_field(name="Author", value="<@589726087769227264>")
+                ah.add_field(name="Github repo", value="https://github.com/mrquantumoff/bultekbot")
+                ah.add_field(name="License", value="**This bot is licensed under the BSD 2-Clause License**")
+                ah.add_field(name="Info", value="I am discord shit messaging bot, inspired by r/shitposting's automoderator.")
+                ah.add_field(name="Support", value="If you have any questions or concerns, please contact <@589726087769227264>")
+                ah.add_field(name="Copyright", value="**Copyright © 2022, Demir Yerli**")
+                eh.set_author(name="BultekBot", url="https://github.com/mrquantumoff/bultekbot")
+                ah.set_author(name="Demir Yerli", url="https://qnt.fanlink.to/socials")
+                await message.reply(embed=eh)
+                await message.reply(embed=ah)
             if command.startswith("ban"):
                 if message.author.guild_permissions.ban_members and self not in message.mentions:
                     print("trying to ban")
@@ -109,7 +130,7 @@ class DiscordClient(nextcord.Client):
             if command.startswith("wipechat"):
                 if message.author.guild_permissions.manage_messages:
                     print("trying to wipe chat")
-                    await message.channel.purge(limit=15000)
+                    await message.channel.purge()
                     await message.author.send("Wiped chat")
                 else:
                     await message.reply("sorry "+message.author.name+" senpai I can't do that(((")
@@ -130,6 +151,18 @@ class DiscordClient(nextcord.Client):
                                 await message.reply("Gave "+member.name+" "+role.name)
                         except:
                             await message.reply("Couldn't give "+member.name)
+                else:
+                    await message.reply("no, u don't have enough sPERMISSIONS")
+            if command.startswith("take"):
+                if message.author.guild_permissions.manage_roles and self.user not in message.mentions:
+                    print("trying to take")
+                    for member in message.mentions:
+                        try:
+                            for role in message.role_mentions:
+                                await member.remove_roles(nextcord.utils.get(message.guild.roles, name=role.name))
+                                await message.reply("Removed "+member.name+" "+role.name)
+                        except:
+                            await message.reply("Couldn't take role from "+member.name)
                 else:
                     await message.reply("no, u don't have enough sPERMISSIONS")
             if command.startswith("ragnarok"):
