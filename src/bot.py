@@ -4,13 +4,13 @@ import nextcord, datetime, pprint, time, config, random, requests
 # Base config
 prefix = config.prefix
 token = config.token
-
+timeout = config.timeout
 BASE = "https://discord.com/api/v9/"
 
 class DiscordClient(nextcord.Client):
     async def on_ready(self):
         print('Logged in as', self.user)
-    async def timeout_user(*, user_id: int, guild_id: int, until: int):
+    async def mute(*, user_id: int, guild_id: int, until: int):
         endpoint = f'guilds/{guild_id}/members/{user_id}'
         headers = {"Authorization": f"Bot {token}"}
         url = BASE + endpoint
@@ -113,12 +113,9 @@ class DiscordClient(nextcord.Client):
                     print("trying to mute")
                     for member in message.mentions:
                         try:
-                            await timeout_user(user_id=member.id)
+                            await member.timeout(datetime.timedelta(minutes=timeout))
+                            await message.reply("Muted "+member.name)
                         except:
                             print("Couldn't mute "+member.name)
                 else:
                     await message.reply("LMAO, his dick is bigger than yours")
-
-client = DiscordClient()
-
-client.run(token)
