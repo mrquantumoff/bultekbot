@@ -1,3 +1,5 @@
+from ensurepip import version
+from incremental import Version
 import nextcord, datetime, pprint, time, config, random, requests
 from nextcord.utils import get
 # Base config
@@ -6,9 +8,15 @@ token = config.token
 timeout = config.timeout
 BASE = "https://discord.com/api/v9/"
 
+class BultekBotData():
+    Version.major = 1
+    Version.minor = 0
+    Version.patch = 0
+    strver = str(Version.major)+'.'+str(Version.minor)+'.'+str(Version.patch)
 class DiscordClient(nextcord.Client):
     async def on_ready(self):
         print('Logged in as', self.user)
+        print("BultekBot v"+BultekBotData.strver)
 
     async def on_message(self, message):
         # don't respond to ourselves
