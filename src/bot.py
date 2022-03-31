@@ -58,7 +58,7 @@ class DiscordClient(nextcord.Client):
             command = message.content[len(prefix):]
             print(command)
             if command == "help":
-                await message.reply("Hi, Discord Shit messaging bot, inspired by r/shitposting's automoderator.\nWhat triggers me is a secret")
+                await message.reply("Hi, I am discord shit messaging bot, inspired by r/shitposting's automoderator.\nWhat triggers me is a secret\nPrefix: "+prefix+"\nTimeout in minutes: "+str(timeout)+"\nCommands: *"+prefix+"mute <@user>, "+prefix+"kick <@user>, "+prefix+"(un)ban @<user> and "+prefix+"help*\n**This bot is licensed under the 2-Clause BSD License.\nCopyright ©️, 2022 Demir Yerli**")
             if command.startswith("ban"):
                 if message.author.guild_permissions.ban_members and self not in message.mentions:
                     print("trying to ban")
