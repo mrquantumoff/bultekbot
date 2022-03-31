@@ -66,6 +66,7 @@ class DiscordClient(nextcord.Client):
                             await message.reply("Banned "+member.name) 
                             print("Banned "+member.name)
                         except:
+                            await message.reply("LMAO, his dick is bigger than yours")
                             print("Couldn't ban "+member.name)
                 else:
                     await message.reply("LMAO, his dick is bigger than yours")
@@ -79,7 +80,7 @@ class DiscordClient(nextcord.Client):
                             await message.reply("Unbanned "+member.name)
                             print("Unbanned "+member.name)
                         except:
-                            print("Couldn't unban "+member.name)
+                            message.reply("Couldn't unban "+member.name)
                 else:
                     print("LMAO, my dick is bigger than yours")
             if command.startswith("kick"):
