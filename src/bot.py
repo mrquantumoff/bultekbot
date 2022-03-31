@@ -1,13 +1,9 @@
-from ensurepip import version
 from incremental import Version
 import nextcord, datetime, pprint, time, config, random, requests
 from nextcord.utils import get
-# Base config
+timeout = config.timeout
 prefix = config.prefix
 token = config.token
-timeout = config.timeout
-BASE = "https://discord.com/api/v9/"
-
 class BultekBotData():
     Version.major = 1
     Version.minor = 0
