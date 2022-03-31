@@ -1,5 +1,3 @@
-from socket import timeout
-from sys import prefix
 import nextcord, datetime, pprint, time, config, random, requests
 # Base config
 prefix = config.prefix
