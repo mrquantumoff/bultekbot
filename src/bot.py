@@ -208,7 +208,7 @@ class DiscordClient(nextcord.Client):
                             print("Couldn't delete role: " + roles.name)
                     print("Ragnarok done")
                     if z == x:
-                        color = discord.Color(value=0x00ff00)
+                        color = nextcord.Color(value=0x00ff00)
                     else: color = 0xF9FF9A #Yellow color
                     results = nextcord.Embed(title="Ragnarok", description="Ragnarok done", color=color)
                     results.add_field(name="Tasks done", value=z)
