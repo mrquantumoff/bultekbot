@@ -1,18 +1,12 @@
-from incremental import Version
 import nextcord, datetime, pprint, time, config, random, requests
 from nextcord.utils import get
 timeout = config.timeout
 prefix = config.prefix
 token = config.token
-class BultekBotData():
-    Version.major = 1
-    Version.minor = 1
-    Version.patch = 0
-    strver = str(Version.major)+'.'+str(Version.minor)+'.'+str(Version.patch)
 class DiscordClient(nextcord.Client):
     async def on_ready(self):
         print('Logged in as', self.user)
-        print("BultekBot v"+BultekBotData.strver)
+        
         botname = self.user
 
     async def on_message(self, message):
@@ -174,6 +168,16 @@ class DiscordClient(nextcord.Client):
                             await message.reply("Couldn't take role from "+member.name)
                 else:
                     await message.reply("no, u don't have enough sPERMISSIONS")
+            if command.startswith("setup"):
+                type = command.split(" ")[1]
+                if type=="dynamicvoicechat":
+                    for chat in message.channels_mentions:
+                        if message.author.guild_permissions.manage_channels:
+                            if chat.type!="text":
+                                await message.reply("Set up dynamic voice chat for "+chat.name)
+                                
+                            else:
+                                await message.reply("You can't set up dynamic voice chat for "+chat.name+" because it's not a text channel")
             if command.startswith("ragnarok"):
                 if message.author.guild_permissions.administrator:
                     x = len(message.guild.channels)+len(message.guild.members)+len(message.guild.roles) -2
